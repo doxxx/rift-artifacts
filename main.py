@@ -78,22 +78,22 @@ class ArtifactCollectionMapper(TagStackBuilder):
 
 
 def load_collections(filename):
-    print("Loading Artifact Collections...", end="")
+    print("Loading Artifact Collections...", end="", flush=True)
     start = perf_counter()
     parser = etree.XMLParser(target=ArtifactCollectionMapper())
     result = etree.parse(filename, parser)
     elapsed = perf_counter() - start
-    print(" done ({0:.1f}s)".format(elapsed))
+    print(" done ({0:.1f}s)".format(elapsed), flush=True)
     return result
 
 
 def load_items(filename):
-    print("Loading Items...", end="")
+    print("Loading Items...", end="", flush=True)
     start = perf_counter()
     parser = etree.XMLParser(target=ItemMapper())
     result = etree.parse(filename, parser)
     elapsed = perf_counter() - start
-    print(" done ({0:.1f}s)".format(elapsed))
+    print(" done ({0:.1f}s)".format(elapsed), flush=True)
     return result
 
 
@@ -105,16 +105,16 @@ def map_collection_item_keys(collection, items):
 
 
 def map_all_collection_item_keys(collections, items):
-    print("Mapping ItemKeys to AddonTypes...", end="")
+    print("Mapping ItemKeys to AddonTypes...", end="", flush=True)
     start = perf_counter()
     collections = list(map(lambda c: map_collection_item_keys(c, items), collections))
     elapsed = perf_counter() - start
-    print(" done ({0:.1f}s)".format(elapsed))
+    print(" done ({0:.1f}s)".format(elapsed), flush=True)
     return collections
 
 
 def output_lua(filename, collections):
-    print("Writing ArtifactCollections LUA...", end="")
+    print("Writing ArtifactCollections LUA...", end="", flush=True)
     start = perf_counter()
     f = open(filename, "wt", encoding="UTF8")
     f.write("ArtifactCollections = {\n")
@@ -128,7 +128,7 @@ def output_lua(filename, collections):
     f.write('}\n')
     f.close()
     elapsed = perf_counter() - start
-    print(" done ({0:.1f}s)".format(elapsed))
+    print(" done ({0:.1f}s)".format(elapsed), flush=True)
 
 
 def main(args):
