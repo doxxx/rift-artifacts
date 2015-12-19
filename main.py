@@ -118,11 +118,14 @@ def output_lua(filename, collections):
     start = perf_counter()
     f = open(filename, "wt", encoding="UTF8")
     f.write("INDY_ArtifactCollections = {\n")
+    collections.sort(key=lambda c: c["name"])
     for collection in collections:
         f.write('  ["')
         f.write(collection["name"])
         f.write('"] = { ')
-        for item in collection["items"]:
+        items = collection["items"]
+        items.sort()
+        for item in items:
             f.write('["' + item + '"] = true, ')
         f.write('},\n')
     f.write('}\n')
