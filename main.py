@@ -117,7 +117,7 @@ def output_lua(filename, collections):
     print("Writing ArtifactCollections LUA...", end="", flush=True)
     start = perf_counter()
     f = open(filename, "wt", encoding="UTF8")
-    f.write("ArtifactCollections = {\n")
+    f.write("INDY_ArtifactCollections = {\n")
     for collection in collections:
         f.write('  ["')
         f.write(collection["name"])
