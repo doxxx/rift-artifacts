@@ -17,6 +17,8 @@ If you are using Windows, you can download the lxml extension (e.g. `lxml‑3.6.
 
 If you would rather have pip compile the package, you will need to ensure that you have the correct version of Visual Studio installed (the Express edition will suffice), and run the first `pip install` command inside a "Visual Studio Command Prompt". Please see the [lxml installation instructions](http://lxml.de/installation.html) for further information.
 
+Another alternative for Windows 10 is to use the _Windows Subsystem for Linux_. Once installed, in a Bash window you can use `sudo apt install python3 python3-lxml` to install Python and the lxml library, and then run Python as described below.
+
 ## Usage
 
 First, extract the `ArtifactCollections.xml` and `Items.xml` files from the `Rift_Discoveries_<date>.zip` file.
