@@ -135,6 +135,10 @@ def output_lua(filename, collections):
 
 
 def main(args):
+    if len(args) < 3:
+        print("Usage: main.py <Items.xml> <ArtifactCollections.xml> <Output.lua>")
+        return
+
     items = load_items(args[0])
     collections = load_collections(args[1])
     collections = map_all_collection_item_keys(collections, items)
