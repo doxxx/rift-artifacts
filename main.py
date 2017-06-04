@@ -1,8 +1,12 @@
 import sys
 import re
+from functools import partial
 from time import perf_counter
 
 from lxml import etree
+
+
+USAGE = "Usage: main.py <Items.xml> <ArtifactCollections.xml> <Output.lua>"
 
 
 def normalize_whitespace(s):
@@ -56,15 +60,16 @@ class ArtifactCollectionMapper(TagStackBuilder):
     def data(self, data):
         tags = self.tagStack[-3:]
         if tags == ["ArtifactCollection", "Name", "English"]:
-            #print("collection name segment: ", repr(data))
             self.collectionName += data
         elif tags == ["Items", "Item", "ItemKey"]:
-            #print("itemkey: ", repr(data))
             self.itemKeys.append(data)
 
     def end(self, tag):
         if tag == "ArtifactCollection":
-            self.collections.append({ "name": normalize_whitespace(self.collectionName), "items": self.itemKeys })
+            self.collections.append({
+                "name": normalize_whitespace(self.collectionName),
+                "items": self.itemKeys
+            })
             self.collectionName = ""
             self.itemKeys = []
         super().end(tag)
@@ -97,7 +102,7 @@ def load_items(filename):
     return result
 
 
-def map_collection_item_keys(collection, items):
+def map_collection_item_keys(items, collection):
     return {
         "name": collection["name"],
         "items": list(map(lambda key: items.get(key, ""), collection["items"]))
@@ -107,7 +112,8 @@ def map_collection_item_keys(collection, items):
 def map_all_collection_item_keys(collections, items):
     print("Mapping ItemKeys to AddonTypes...", end="", flush=True)
     start = perf_counter()
-    collections = list(map(lambda c: map_collection_item_keys(c, items), collections))
+    f = partial(map_collection_item_keys, items)
+    collections = list(map(f, collections))
     elapsed = perf_counter() - start
     print(" done ({0:.1f}s)".format(elapsed), flush=True)
     return collections
@@ -136,7 +142,7 @@ def output_lua(filename, collections):
 
 def main(args):
     if len(args) < 3:
-        print("Usage: main.py <Items.xml> <ArtifactCollections.xml> <Output.lua>")
+        print(USAGE)
         return
 
     items = load_items(args[0])
