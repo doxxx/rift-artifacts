@@ -1,7 +1,5 @@
 .idea/
+lxenv/
 wvenv/
 venv/
-Items*.xml
-ArtifactCollections*.xml
-ArtifactCollections*.lua
-*.7z
+data/
